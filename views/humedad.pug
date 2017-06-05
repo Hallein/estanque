@@ -1,0 +1,171 @@
+extends layout
+
+block estilos
+
+//- Row completa sensor de humedad
+mixin sensor_humedad(id, humedad, estado)
+	div(id='sensor' + id, class='carta')
+		.row
+			//- Sensor
+			.col-xs-12.col-md-4
+
+				.row.center-xs
+					.carta-title.col-xs
+						span.titulo Sensor de humedad #{id}
+
+				.row.middle-xs
+					.col-xs-12
+						.humedad.humedad-nivel
+							.row.center-xs.humedad-hoja
+
+								.humedad-text-contenedor
+									span.humedad-text Nivel de humedad actual
+
+								div
+									.row.middle-xs
+
+										.col-xs-6
+											span(class='porcentaje-hoja hoja-' + estado) #{humedad}%
+										.col-xs-6
+											img.hoja(src='img/hoja' + estado + '.png', alt='hoja')
+			//- Gráfico 
+			.col-xs-12.col-md-8
+
+						.row.center-xs
+							.carta-title.col-xs
+								span.titulo Gráfica de humedad en el tiempo
+
+						.row.middle-xs
+							.col-xs-12
+								div(class='humedad humedad-grafico humedad-grafico-' + estado)
+									canvas(id='hoja' + id, width='800', height='250')
+
+block contenido
+
+	aside.sidebar-a
+		ul.menu-a
+			li
+				a(href='/estanque')
+					span CONTROL DEL ESTANQUE
+			li
+				a(href='/humedad')
+					span.activo SENSORES DE HUMEDAD
+			li
+				a(href='/temperatura')
+					span SENSOR DE TEMPERATURA
+			li
+				a(href='/camaras')
+					span CONTROL DE CÁMARAS
+
+	main.main-a
+		.main-contenedor
+			//- Acá debería ir un loop por cada sensor: id, último%, estado de acuerdo al rango de humedad
+			
+			- for (var i = 0; i < humedad.length; i++)
+				+sensor_humedad(humedad[i].id, humedad[i].porcentaje, humedad[i].estado)
+
+
+	#overlay-loader
+		#loader
+		#loader-message
+
+	script(type='text/javascript', src='js/jquery.js')
+	script(src="/socket.io/socket.io.js")
+	script(src='js/charts.js')
+	script.
+		/*Obtenemos todos los sensores que hay en la página*/
+		var hijos = $('.main-contenedor').children();
+
+		/*Lista de objetos/instancias gráficos*/
+		var lista_graficos = {};
+
+		/*Hacemos un ciclo por cada sensor para setear el gráfico*/
+		var datos_humedad = !{JSON.stringify(humedad)};
+		hijos.each(function(index, hijo){
+
+			/*Opciones genéricas para los gráficos*/
+			var data = {
+			    labels: Array(50), //Cantidad de elementos por gráfico
+			    datasets: [
+			        {
+			            label: "Humedad (%)",
+			            fill: false,
+			            lineTension: 0.2,
+			            backgroundColor: "rgba(251, 192, 45, 0.5)", //amarillo 0.5 opacity
+			            borderColor: "rgba(251, 192, 45, 1)", //amarillo, linea que une los puntos
+			            borderCapStyle: 'butt',
+			            borderDash: [],
+			            borderDashOffset: 0.0,
+			            borderJoinStyle: 'miter',
+			            pointBorderColor: "#FFFFFF", //amarillo, círculo que envuelve a los puntos
+			            pointBackgroundColor: "rgba(251, 192, 45, 1)", //#FFFFFF, color de los puntos
+			            pointBorderWidth: 2,
+			            pointHoverRadius: 5,
+			            pointHoverBackgroundColor: "#d35400", //naranjo
+			            pointHoverBorderColor: "#FFFFFF",
+			            pointHoverBorderWidth: 3,
+			            pointRadius: 4,
+			            data: datos_humedad[index].data, //data desde el servidor en array
+			            pointHitRadius: 20,
+			            spanGaps: false,
+			        }
+			    ]
+			};
+
+			var options = {
+			            scaleFontColor: "#FFFFFF",
+			            scales: {
+			                 xAxes : [ {
+			                    display : true,
+			                    gridLines : {
+			                        display : false
+			                        },
+			                    ticks: {
+			                        fontColor: "white"
+			                    }
+			                    } ],
+			                yAxes : [ {
+			                    display : true,
+			                    gridLines : {
+			                        display : true,
+			                        color : 'rgba(255, 255, 255, 0.1)',
+			                        zeroLineColor : 'rgba(255, 255, 255, 0.1)'
+			                        },
+			                    ticks: {
+			                        fontColor: "white"
+			                    }
+			                    } ]
+			            },
+			            legend: {
+			                display: false
+			            },
+			            title: {
+			                display: false
+			            },
+			            layout: {
+			                padding: {  
+			                        top: 20,
+			                        bottom: 0,
+			                    }
+			            },
+			            maintainAspectRatio: false
+			        };
+			/*====================================*/
+
+		    var grafico = $(hijo).find('canvas');
+
+		    //data.datasets[0].data = datos_humedad[index].data;
+
+		    var chart = new Chart(grafico, {
+		        type: 'line',
+		        options: options,
+		        data: data
+		    });
+
+			lista_graficos[datos_humedad[index].id] = chart;
+
+		});
+
+	script(src='js/humedad.js')
+
+		

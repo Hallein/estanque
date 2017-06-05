@@ -1,0 +1,79 @@
+extends layout
+
+block estilos
+	link(rel='stylesheet', href='css/estanque.css')
+	link(rel='stylesheet', href='css/switch.css')
+	link(rel='stylesheet', href='css/agua.css')
+
+block contenido
+	svg(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', x='0px', y='0px', style='display: none;')
+		symbol#wave
+			path(d='M420 20c21.5-.4 38.8-2.5 51.1-4.5 13.4-2.2 26.5-5.2 27.3-5.4C514 6.5 518 4.7 528.5 2.7c7.1-1.3 17.9-2.8 31.5-2.7 0 0 0 0 0 0v20H420z')
+			path(d='M420 20c-21.5-.4-38.8-2.5-51.1-4.5-13.4-2.2-26.5-5.2-27.3-5.4C326 6.5 322 4.7 311.5 2.7 304.3 1.4 293.6-.1 280 0c0 0 0 0 0 0v20H420z')
+			path(d='M140 20c21.5-.4 38.8-2.5 51.1-4.5 13.4-2.2 26.5-5.2 27.3-5.4C234 6.5 238 4.7 248.5 2.7c7.1-1.3 17.9-2.8 31.5-2.7 0 0 0 0 0 0v20H140z')
+			path(d='M140 20c-21.5-.4-38.8-2.5-51.1-4.5-13.4-2.2-26.5-5.2-27.3-5.4C46 6.5 42 4.7 31.5 2.7 24.3 1.4 13.6-.1 0 0c0 0 0 0 0 0l0 20H140z')
+
+	aside.sidebar-a
+		ul.menu-a
+			li
+				a(href='/estanque')
+					span.activo CONTROL DEL ESTANQUE
+			li
+				a(href='/humedad')
+					span SENSORES DE HUMEDAD
+			li
+				a(href='/temperatura')
+					span SENSOR DE TEMPERATURA
+			li
+				a(href='/camaras')
+					span CONTROL DE CÁMARAS
+
+	main.main-a
+		.main-contenedor
+			.row
+				.col-xs-12
+					.carta
+
+						.row.center-xs
+							.carta-title.col-xs
+								span.titulo Control del nivel del estanque
+
+						.row.middle-xs
+							.col-xs-12.col-md-6.row-estanque
+								.estanque
+									.water-jar
+										.water-filling
+											#count.percentNum 0
+											.percentB %
+										#water.water
+											svg.water_wave.water_wave_back(viewbox='0 0 560 20')
+												use(xlink:href='#wave')
+											svg.water_wave.water_wave_front(viewbox='0 0 560 20')
+												use(xlink:href='#wave')
+
+							.col-xs-12.col-md-6.row-estanque
+								.estanque-control.carta
+									
+									.row.middle-xs.center-xs.control.control-entrada
+										.col-xs-3.col-sm-3
+											input#switch_entrada.cbx.hidden.switch-control(type='checkbox', onchange='compuertaEntrada(this)')
+											label.lbl(for='switch_entrada')
+										.col-xs-12.col-sm-9.first-xs.last-sm
+											span.switch-text Switch control compuerta de entrada
+									hr
+									.row.middle-xs.center-xs.control.control-salida
+										.col-xs-3.col-sm-3
+											input#switch_salida.cbx.hidden.switch-control(type='checkbox', onchange='compuertaSalida(this)')
+											label.lbl(for='switch_salida')
+										.col-xs-12.col-sm-9.first-xs.last-sm
+											span.switch-text Switch control compuerta de salida
+
+	#overlay-loader
+		#loader
+		#loader-message
+			
+	script(type='text/javascript', src='js/jquery.js')
+	script(src="/socket.io/socket.io.js")
+	script(src='js/estanque.js')
+
+		

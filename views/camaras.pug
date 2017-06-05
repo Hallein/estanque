@@ -1,0 +1,69 @@
+extends layout
+
+block estilos
+	link(rel='stylesheet', href='css/camaras.css')
+	link(rel='stylesheet', href='css/lightbox.min.css')
+
+//- Cámaras cuadradas
+mixin camara_cuadrada(id, color)
+	- var camara_color = 'c-' + color
+	.col-xs-12.col-sm-6.col-md-3
+		.carta-contenedor
+			a(href='img/' + id + '.jpg', data-lightbox= id, data-title='Imagen de la cámara ' + id)
+				div(class='cuadrado-header ' + camara_color)
+					img(src='img/camara.png', alt='')
+			.cuadrado-content
+				h2 Cámara #{id}
+			.carta-footer Cámara ubicada en la sección #{id}
+
+//- Cámaras rectangulares
+mixin camara_rectangulo(id, color)
+	- var camara_color = 'c-' + color
+	.col-xs-12.col-sm-6.col-md-4
+		.carta-contenedor
+			a(href='img/' + id + '.jpg', data-lightbox= id, data-title='Imagen de la cámara ' + id)
+				div(class='rectangulo-header ' + camara_color)
+					img(src='img/camara.png', alt='')
+					h2 Cámara #{id}
+			.rectangulo-content Cámara ubicada en la sección #{id}
+			.carta-footer
+
+
+block contenido
+	aside.sidebar-a
+		ul.menu-a
+			li
+				a(href='/estanque')
+					span CONTROL DEL ESTANQUE
+			li
+				a(href='/humedad')
+					span SENSORES DE HUMEDAD
+			li
+				a(href='/temperatura')
+					span SENSOR DE TEMPERATURA
+			li
+				a(href='/camaras')
+					span.activo CONTROL DE CÁMARAS
+
+	main.main-a
+		.main-contenedor
+			//- Cámaras
+			.row
+				+camara_cuadrada('A', 'azul')
+				+camara_cuadrada('B', 'rojo')
+				+camara_cuadrada('C', 'esmeralda')
+				+camara_cuadrada('D', 'amatista')
+
+			.row
+				+camara_rectangulo('E', 'medianoche')
+				+camara_rectangulo('F', 'naranjo')
+				+camara_rectangulo('G', 'granada')
+
+	#overlay-loader
+		#loader
+		#loader-message
+
+	script(type='text/javascript', src='js/jquery.js')
+	script(src="/socket.io/socket.io.js")
+	script(src="js/lightbox.min.js")
+	script(src='js/camaras.js')

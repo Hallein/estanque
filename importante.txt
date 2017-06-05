@@ -1,0 +1,14 @@
+Instalar Nodejs
+	Instalar Express Generator: npm install express-generator -g
+		Crear app express: express --view=pug nombre_carpeta
+		Instalar dependencias: npm install
+		Iniciar el servidor: npm start
+	Instalar Python Shell: npm install python-shell (Docs: https://github.com/extrabacon/python-shell)
+
+Instalar Python 3
+	Librerías python
+		Requests: pip install requests
+		PySerial: pip install pyserial
+
+Librerías Arduino
+	ArduinoJSON: https://github.com/bblanchon/ArduinoJson

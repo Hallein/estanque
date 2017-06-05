@@ -1,0 +1,15 @@
+extends layout
+
+block estilos
+    link(rel='stylesheet', href='css/login.css')
+
+block contenido
+    .login-page
+        .form
+            p.form-title ACCESO AL SISTEMA
+            form.login-form(action='/estanque')
+                input(type='text', placeholder='Usuario')
+                |  
+                input(type='password', placeholder='Contraseña')
+                |  
+                button(type='submit') Ingresar

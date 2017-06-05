@@ -1,0 +1,99 @@
+extends layout
+
+block estilos
+	link(rel='stylesheet', href='css/termometro.css')
+
+block contenido
+
+	aside.sidebar-a
+		ul.menu-a
+			li
+				a(href='/estanque')
+					span CONTROL DEL ESTANQUE
+			li
+				a(href='/humedad')
+					span SENSORES DE HUMEDAD
+			li
+				a(href='/temperatura')
+					span.activo SENSOR DE TEMPERATURA
+			li
+				a(href='/camaras')
+					span CONTROL DE CÁMARAS
+
+	main.main-a
+		.main-contenedor
+			.row
+				//- Termómetro noche
+				#sensorA.col-xs-12.col-md-4
+					.carta
+
+						.row.center-xs
+							.carta-title.col-xs
+								.titulo Temperatura actual
+
+						.temperatura.temperatura-noche.row.middle-xs
+							.col-xs-4
+								.d-termometro
+									.d-mercurio
+									.d-termometro-tubo
+										.d-medicion
+										.d-medicion
+										.d-medicion
+									.d-termometro-esfera
+
+							.col-xs-8
+								.texto-temperatura
+
+							.d-clima
+								.d-luna
+									.d-crater
+
+				//- Termómetro día
+				#sensorB.col-xs-12.col-md-4
+					.carta
+
+						.row.center-xs
+							.carta-title.col-xs
+								.titulo Temperatura actual
+
+						.temperatura.temperatura-dia.row.middle-xs
+							.col-xs-4.col-md-4
+								.d-termometro
+									.d-mercurio
+									.d-termometro-tubo
+										.d-medicion
+										.d-medicion
+										.d-medicion
+									.d-termometro-esfera
+
+							.col-xs-8.col-md-8
+								.texto-temperatura
+
+							.d-clima
+								.d-sol
+									.d-rayos
+										.d-rayo
+										.d-rayo
+										.d-rayo
+										.d-rayo
+										.d-rayo
+										.d-rayo
+										.d-rayo
+										.d-rayo
+								.d-nubes
+									.d-nube-base
+										.d-nube
+										.d-nube
+										.d-nube
+										.d-nube
+
+	#overlay-loader
+		#loader
+		#loader-message
+
+	script(type='text/javascript', src='js/jquery.js')
+	script(src="/socket.io/socket.io.js")
+	script(src='js/charts.js')
+	script(src='js/temperatura.js')
+
+
