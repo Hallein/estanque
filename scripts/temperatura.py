@@ -17,6 +17,7 @@ while True:
 	r = requests.post('http://localhost:3000/temperatura/sensor/A', data = payload)
 	r = requests.post('http://localhost:3000/temperatura/sensor/B', data = payload)
 	#print(temperatura)
+	
 
 
 # contador = 0
